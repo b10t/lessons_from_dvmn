@@ -69,24 +69,20 @@ if __name__ == '__main__':
     url = urlparse(url)
     url_scheme = '%s://' % url.scheme
 
-    if len(url.scheme) == 0:
+    if url.scheme:
         print('Введите ссылку полность, со схемой (http://... или https://...)')
-        exit(1)
-
-    # Удаляем схему для проверки типа ссылки
-    url = url.geturl().replace(url_scheme, '', 1)
-
-    if is_bitlink(token, url):
-        try:
-            print('Кол-во кликов', count_clicks(token, url))
-        except requests.exceptions.HTTPError:
-            print('Ошибка при получении количества кликов.')
-            exit(1)
     else:
-        # Добавляем схему к адресу
-        url = url_scheme + url
+        url = url.geturl().replace(url_scheme, '', 1)
 
-        try:
-            print('Битлинк', shorten_link(token, url))
-        except:
-            print('Ошибка при получении короткой ссылки.')
+        if is_bitlink(token, url):
+            try:
+                print('Кол-во кликов', count_clicks(token, url))
+            except requests.exceptions.HTTPError:
+                print('Ошибка при получении количества кликов.')
+        else:
+            url = url_scheme + url
+
+            try:
+                print('Битлинк', shorten_link(token, url))
+            except:
+                print('Ошибка при получении короткой ссылки.')
