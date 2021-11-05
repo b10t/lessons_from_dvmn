@@ -67,22 +67,17 @@ def is_bitlink(token, url):
 if __name__ == '__main__':
     url = input('Введите ссылку: ')
     url = urlparse(url)
-    url_scheme = '%s://' % url.scheme
 
     if url.scheme:
-        print('Введите ссылку полность, со схемой (http://... или https://...)')
-    else:
-        url = url.geturl().replace(url_scheme, '', 1)
-
-        if is_bitlink(token, url):
+        if is_bitlink(token, url.netloc + url.path):
             try:
-                print('Кол-во кликов', count_clicks(token, url))
+                print('Кол-во кликов', count_clicks(token, url.netloc + url.path))
             except requests.exceptions.HTTPError:
                 print('Ошибка при получении количества кликов.')
         else:
-            url = url_scheme + url
-
             try:
-                print('Битлинк', shorten_link(token, url))
+                print('Битлинк', shorten_link(token, url.geturl()))
             except:
                 print('Ошибка при получении короткой ссылки.')
+    else:
+        print('Введите ссылку полность, со схемой (http://... или https://...)')
