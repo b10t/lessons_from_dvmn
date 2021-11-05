@@ -71,7 +71,8 @@ if __name__ == '__main__':
     if url.scheme:
         if is_bitlink(token, url.netloc + url.path):
             try:
-                print('Кол-во кликов', count_clicks(token, url.netloc + url.path))
+                print('Кол-во кликов',
+                    count_clicks(token, url.netloc + url.path))
             except requests.exceptions.HTTPError:
                 print('Ошибка при получении количества кликов.')
         else:
