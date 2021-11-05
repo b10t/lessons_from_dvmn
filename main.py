@@ -19,7 +19,7 @@ def shorten_link(token, url):
         str: Сокращённая ссылка
     """
     headers = {'Authorization': f'Bearer {token}'}
-    payload = {'long_url': url.geturl()}
+    payload = {'long_url': url}
 
     response = requests.post(
         f'https://api-ssl.bitly.com/v4/bitlinks',
@@ -78,7 +78,7 @@ if __name__ == '__main__':
                 print('Ошибка при получении количества кликов.')
         else:
             try:
-                print('Битлинк', shorten_link(token, url))
+                print('Битлинк', shorten_link(token, url.geturl()))
             except:
                 print('Ошибка при получении короткой ссылки.')
     else:
