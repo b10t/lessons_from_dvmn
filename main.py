@@ -1,5 +1,7 @@
 import os
+from urllib import parse
 import requests
+import argparse
 from dotenv import load_dotenv
 from urllib.parse import urlparse
 
@@ -65,7 +67,15 @@ def is_bitlink(token, url):
 
 
 if __name__ == '__main__':
-    url = urlparse(input('Введите ссылку: '))
+    parser = argparse.ArgumentParser()
+    parser.add_argument('url', nargs='?')
+
+    namespace = parser.parse_args()
+
+    if namespace.url:
+        url = urlparse(namespace.url)
+    else:
+        url = urlparse(input('Введите ссылку: '))
 
     if url.scheme:
         url_without_schema = url.netloc + url.path
