@@ -5,10 +5,6 @@ import argparse
 from dotenv import load_dotenv
 from urllib.parse import urlparse
 
-load_dotenv()
-
-token = os.getenv('BITLY_TOKEN')
-
 
 def shorten_link(token, url):
     """Сокращяет ссылку через интерфейс bit.ly
@@ -67,6 +63,9 @@ def is_bitlink(token, url):
 
 
 if __name__ == '__main__':
+    load_dotenv()
+    token = os.getenv('BITLY_TOKEN')
+
     parser = argparse.ArgumentParser()
     parser.add_argument('url', nargs='?')
 
