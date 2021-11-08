@@ -6,6 +6,7 @@ from urllib.parse import urlsplit
 from datetime import datetime
 import telegram
 import random
+import time
 
 
 def download_image(url, path):
@@ -56,8 +57,10 @@ def fetch_nasa_apod_images(token):
 
     for json in response.json():
         url_image = json['url']
-        download_image(
-            url_image, f'./images/{get_file_name_from_url(json["url"])}')
+
+        if urlsplit(url_image).netloc == 'apod.nasa.gov':
+            download_image(
+                url_image, f'./images/{get_file_name_from_url(json["url"])}')
 
 
 def fetch_nasa_epic_images(token):
@@ -70,8 +73,10 @@ def fetch_nasa_epic_images(token):
 
     for json in response.json():
         url_image = fetch_nasa_epic_url_image(token, json)
-        download_image(
-            url_image, f'./images/{json["image"]}{get_extension_from_url(url_image)}')
+
+        if urlsplit(url_image).netloc == 'api.nasa.gov':
+            download_image(
+                url_image, f'./images/{json["image"]}{get_extension_from_url(url_image)}')
 
 
 def fetch_nasa_epic_url_image(token, response_json):
@@ -112,18 +117,18 @@ if __name__ == '__main__':
     load_dotenv()
     nasa_token = os.getenv('NASA_TOKEN')
     telegram_token = os.getenv('TELEGRAM_TOKEN')
+    timeout = int(os.getenv('TIMEOUT', 86400))
 
-    # fetch_spacex_last_launch()
-    # fetch_nasa_apod_images(nasa_token)
-    # fetch_nasa_epic_images(nasa_token)
+    while True:
+        fetch_spacex_last_launch()
+        fetch_nasa_apod_images(nasa_token)
+        fetch_nasa_epic_images(nasa_token)
 
-    bot = telegram.Bot(token=str(telegram_token))
-    # print(bot.get_me())
-    # bot.send_message(
-    #     chat_id='@photos_from_nasa',
-    #     text="Test bot")
+        bot = telegram.Bot(token=str(telegram_token))
 
-    for root, dirs, files in os.walk("./images/"):
-        bot.send_photo(
-            chat_id='@photos_from_nasa',
-            photo=open(f'images/{files[random.randint(0, len(files))]}', 'rb'))
+        for root, dirs, files in os.walk(path_to_image):
+            bot.send_photo(
+                chat_id='@photos_from_nasa',
+                photo=open(f'{path_to_image}{files[random.randint(0, len(files))]}', 'rb'))
+
+        time.sleep(timeout)
