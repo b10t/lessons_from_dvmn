@@ -4,6 +4,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 from urllib.parse import urlsplit
 from datetime import datetime
+import telegram
 
 
 def download_image(url, path):
@@ -108,8 +109,15 @@ if __name__ == '__main__':
     Path(path_to_image).mkdir(parents=True, exist_ok=True)
 
     load_dotenv()
-    token = os.getenv('NASA_TOKEN')
+    nasa_token = os.getenv('NASA_TOKEN')
+    telegram_token = os.getenv('TELEGRAM_TOKEN')
 
-    fetch_spacex_last_launch()
-    fetch_nasa_apod_images(token)
-    fetch_nasa_epic_images(token)
+    # fetch_spacex_last_launch()
+    # fetch_nasa_apod_images(nasa_token)
+    # fetch_nasa_epic_images(nasa_token)
+
+    bot = telegram.Bot(token=str(telegram_token))
+    print(bot.get_me())
+    bot.send_message(
+        chat_id='@photos_from_nasa',
+        text="Test bot")
