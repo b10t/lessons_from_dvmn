@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 from urllib.parse import urlsplit
 from datetime import datetime
 import telegram
+import random
 
 
 def download_image(url, path):
@@ -117,7 +118,12 @@ if __name__ == '__main__':
     # fetch_nasa_epic_images(nasa_token)
 
     bot = telegram.Bot(token=str(telegram_token))
-    print(bot.get_me())
-    bot.send_message(
-        chat_id='@photos_from_nasa',
-        text="Test bot")
+    # print(bot.get_me())
+    # bot.send_message(
+    #     chat_id='@photos_from_nasa',
+    #     text="Test bot")
+
+    for root, dirs, files in os.walk("./images/"):
+        bot.send_photo(
+            chat_id='@photos_from_nasa',
+            photo=open(f'images/{files[random.randint(0, len(files))]}', 'rb'))
