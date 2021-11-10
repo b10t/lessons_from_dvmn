@@ -23,8 +23,8 @@ def fetch_spacex_last_launch():
 
 
 if __name__ == '__main__':
-    path_to_image = './images/'
-    Path(path_to_image).mkdir(parents=True, exist_ok=True)
+    path_to_images = './images/'
+    Path(path_to_images).mkdir(parents=True, exist_ok=True)
 
     load_dotenv()
     timeout = int(os.getenv('TIMEOUT', 86400))
