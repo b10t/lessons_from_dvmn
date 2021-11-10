@@ -2,7 +2,7 @@ import os
 import requests
 from pathlib import Path
 from dotenv import load_dotenv
-from urllib.parse import urlsplit, unquote
+from urllib.parse import urlsplit, unquote, urlencode
 from datetime import datetime
 import time
 from download_and_save_images import download_image
@@ -35,7 +35,7 @@ def get_extension_from_url(url):
 def fetch_nasa_apod_images(token):
     """Загружает картинки через API NASA."""
     payload = {'api_key': token,
-               'count': 3}
+               'count': 30}
     response = requests.get(
         'https://api.nasa.gov/planetary/apod', params=payload)
     response.raise_for_status()
@@ -74,9 +74,12 @@ def fetch_nasa_epic_url_image(token, image_json):
     Returns:
         str: Ссылка на изображение
     """
+    payload = {'api_key': token}
     date_image = datetime.fromisoformat(image_json['date'])
 
-    return f'https://api.nasa.gov/EPIC/archive/natural/{date_image.strftime("%Y/%m/%d")}/png/{image_json["image"]}.png?api_key={token}'
+    params = '?%s' % urlencode(payload)
+
+    return f'https://api.nasa.gov/EPIC/archive/natural/{date_image.strftime("%Y/%m/%d")}/png/{image_json["image"]}.png{params}'
 
 
 if __name__ == '__main__':
