@@ -40,12 +40,12 @@ def fetch_nasa_apod_images(token):
         'https://api.nasa.gov/planetary/apod', params=payload)
     response.raise_for_status()
 
-    for json in response.json():
-        url_image = json['url']
+    for image_json in response.json():
+        url_image = image_json['url']
 
         if urlsplit(url_image).netloc == 'apod.nasa.gov':
             download_image(
-                url_image, f'./images/{get_file_name_from_url(json["url"])}')
+                url_image, f'./images/{get_file_name_from_url(image_json["url"])}')
 
 
 def fetch_nasa_epic_images(token):
@@ -56,27 +56,27 @@ def fetch_nasa_epic_images(token):
         'https://api.nasa.gov/EPIC/api/natural', params=payload)
     response.raise_for_status()
 
-    for json in response.json():
-        url_image = fetch_nasa_epic_url_image(token, json)
+    for image_json in response.json():
+        url_image = fetch_nasa_epic_url_image(token, image_json)
 
         if urlsplit(url_image).netloc == 'api.nasa.gov':
             download_image(
-                url_image, f'./images/{json["image"]}{get_extension_from_url(url_image)}')
+                url_image, f'./images/{image_json["image"]}{get_extension_from_url(url_image)}')
 
 
-def fetch_nasa_epic_url_image(token, response_json):
+def fetch_nasa_epic_url_image(token, image_json):
     """Получает ссылку на изображение.
 
     Args:
         token (str): TOKEN API NASA
-        response_json (json): Метаданные изображения
+        image_json (json): Метаданные изображения
 
     Returns:
         str: Ссылка на изображение
     """
-    date_image = datetime.fromisoformat(response_json['date'])
+    date_image = datetime.fromisoformat(image_json['date'])
 
-    return f'https://api.nasa.gov/EPIC/archive/natural/{date_image.strftime("%Y/%m/%d")}/png/{response_json["image"]}.png?api_key={token}'
+    return f'https://api.nasa.gov/EPIC/archive/natural/{date_image.strftime("%Y/%m/%d")}/png/{image_json["image"]}.png?api_key={token}'
 
 
 if __name__ == '__main__':
