@@ -2,7 +2,7 @@ import os
 import requests
 from pathlib import Path
 from dotenv import load_dotenv
-from urllib.parse import urlsplit
+from urllib.parse import urlsplit, unquote
 from datetime import datetime
 import time
 from download_and_save_images import download_image
@@ -17,7 +17,7 @@ def get_file_name_from_url(url):
     Returns:
         str: Расширение файла
     """
-    return os.path.basename(urlsplit(url).path)
+    return os.path.basename(unquote(urlsplit(url).path))
 
 
 def get_extension_from_url(url):
@@ -29,7 +29,7 @@ def get_extension_from_url(url):
     Returns:
         str: Расширение файла
     """
-    return os.path.splitext(urlsplit(url).path)[1]
+    return os.path.splitext(unquote(urlsplit(url).path))[1]
 
 
 def fetch_nasa_apod_images(token):
