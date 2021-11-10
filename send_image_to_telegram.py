@@ -11,6 +11,7 @@ if __name__ == '__main__':
 
     load_dotenv()
     telegram_token = os.getenv('TELEGRAM_TOKEN')
+    id_telegram_channel = os.getenv('ID_TELEGRAM_CHANNEL')
     timeout = int(os.getenv('TIMEOUT', 86400))
 
     while True:
@@ -18,7 +19,7 @@ if __name__ == '__main__':
 
         for root, dirs, files in os.walk(path_to_image):
             bot.send_photo(
-                chat_id='@photos_from_nasa',
+                chat_id=id_telegram_channel,
                 photo=open(f'{path_to_image}{files[random.randint(0, len(files))]}', 'rb'))
 
         time.sleep(timeout)
