@@ -1,9 +1,6 @@
 import os
-import requests
 from pathlib import Path
 from dotenv import load_dotenv
-from urllib.parse import urlsplit
-from datetime import datetime
 import telegram
 import random
 import time
