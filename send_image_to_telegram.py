@@ -17,7 +17,9 @@ if __name__ == '__main__':
     while True:
         bot = telegram.Bot(token=str(telegram_token))
 
-        for root, dirs, files in os.walk(path_to_images):
+        files = os.listdir('./images/')
+
+        if files:
             with open(f'{path_to_images}{files[random.randint(0, len(files))]}', 'rb') as photo:
                 bot.send_photo(
                     chat_id=id_telegram_channel,
