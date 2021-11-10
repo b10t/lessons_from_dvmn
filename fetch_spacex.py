@@ -7,7 +7,7 @@ from download_and_save_images import download_image
 
 
 def fetch_spacex_last_launch():
-    """Загружает картинки через API SpaceX"""
+    """Загружает картинки через API SpaceX."""
     response = requests.get('https://api.spacexdata.com/v4/launches')
 
     for i in response.json():

@@ -9,7 +9,7 @@ from download_and_save_images import download_image
 
 
 def get_file_name_from_url(url):
-    """Получает имя файла из url
+    """Получает имя файла из url.
 
     Args:
         url (str): Ссылка на файл
@@ -21,7 +21,7 @@ def get_file_name_from_url(url):
 
 
 def get_extension_from_url(url):
-    """Получает расширение файла из url
+    """Получает расширение файла из url.
 
     Args:
         url (str): Ссылка на файл
@@ -33,9 +33,9 @@ def get_extension_from_url(url):
 
 
 def fetch_nasa_apod_images(token):
-    """Загружает картинки через API NASA"""
+    """Загружает картинки через API NASA."""
     payload = {'api_key': token,
-               'count': 30}
+               'count': 3}
     response = requests.get(
         'https://api.nasa.gov/planetary/apod', params=payload)
     response.raise_for_status()
@@ -49,7 +49,7 @@ def fetch_nasa_apod_images(token):
 
 
 def fetch_nasa_epic_images(token):
-    """Загружает картинки через API NASA"""
+    """Загружает картинки через API NASA."""
     payload = {'api_key': token}
 
     response = requests.get(
@@ -65,11 +65,11 @@ def fetch_nasa_epic_images(token):
 
 
 def fetch_nasa_epic_url_image(token, response_json):
-    """Получает ссылку на изображение
+    """Получает ссылку на изображение.
 
     Args:
         token (str): TOKEN API NASA
-        response_json (json): Содержит структуру по картинке
+        response_json (json): Метаданные изображения
 
     Returns:
         str: Ссылка на изображение
