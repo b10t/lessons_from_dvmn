@@ -10,12 +10,12 @@ if __name__ == '__main__':
     Path(path_to_images).mkdir(parents=True, exist_ok=True)
 
     load_dotenv()
-    telegram_token = os.getenv('TELEGRAM_TOKEN')
+    telegram_token = os.getenv('TELEGRAM_TOKEN', '')
     id_telegram_channel = os.getenv('ID_TELEGRAM_CHANNEL')
     timeout = int(os.getenv('TIMEOUT', 86400))
 
     while True:
-        bot = telegram.Bot(token=str(telegram_token))
+        bot = telegram.Bot(token=telegram_token)
 
         files = os.listdir('./images/')
 
