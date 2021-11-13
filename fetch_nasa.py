@@ -32,10 +32,10 @@ def get_extension_from_url(url):
     return os.path.splitext(unquote(urlsplit(url).path))[1]
 
 
-def fetch_nasa_apod_images(token):
+def fetch_nasa_apod_images(token, path_to_images):
     """Загружает картинки через API NASA."""
     payload = {'api_key': token,
-               'count': 30}
+               'count': 3}
     response = requests.get(
         'https://api.nasa.gov/planetary/apod', params=payload)
     response.raise_for_status()
@@ -45,10 +45,13 @@ def fetch_nasa_apod_images(token):
 
         if urlsplit(url_image).netloc == 'apod.nasa.gov':
             download_image(
-                url_image, f'./images/{get_file_name_from_url(image_json["url"])}')
+                url_image,
+                os.path.join(
+                    path_to_images,
+                    f'{get_file_name_from_url(image_json["url"])}'))
 
 
-def fetch_nasa_epic_images(token):
+def fetch_nasa_epic_images(token, path_to_images):
     """Загружает картинки через API NASA."""
     payload = {'api_key': token}
 
@@ -61,7 +64,10 @@ def fetch_nasa_epic_images(token):
 
         if urlsplit(url_image).netloc == 'api.nasa.gov':
             download_image(
-                url_image, f'./images/{image_json["image"]}{get_extension_from_url(url_image)}')
+                url_image,
+                os.path.join(
+                    path_to_images,
+                    f'{image_json["image"]}{get_extension_from_url(url_image)}'))
 
 
 def fetch_nasa_epic_url_image(token, image_json):
@@ -83,15 +89,15 @@ def fetch_nasa_epic_url_image(token, image_json):
 
 
 if __name__ == '__main__':
-    path_to_images = './images/'
-    Path(path_to_images).mkdir(parents=True, exist_ok=True)
-
     load_dotenv()
+    path_to_images = os.getenv('PATH_TO_IMAGES', './images/')
     nasa_token = os.getenv('NASA_TOKEN')
     timeout = int(os.getenv('TIMEOUT', 86400))
 
+    Path(path_to_images).mkdir(parents=True, exist_ok=True)
+
     while True:
-        fetch_nasa_apod_images(nasa_token)
-        fetch_nasa_epic_images(nasa_token)
+        fetch_nasa_apod_images(nasa_token, path_to_images)
+        fetch_nasa_epic_images(nasa_token, path_to_images)
 
         time.sleep(timeout)

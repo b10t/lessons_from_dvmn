@@ -6,7 +6,7 @@ import time
 from download_and_save_images import download_image
 
 
-def fetch_spacex_last_launch():
+def fetch_spacex_last_launch(path_to_images):
     """Загружает картинки через API SpaceX."""
     response = requests.get('https://api.spacexdata.com/v4/launches')
 
@@ -18,18 +18,18 @@ def fetch_spacex_last_launch():
 
                 download_image(
                     url,
-                    './images/spacex%s.jpg' % index)
+                    os.path.join(path_to_images, 'spacex%s.jpg' % index))
             break
 
 
 if __name__ == '__main__':
-    path_to_images = './images/'
+    load_dotenv()
+    path_to_images = os.getenv('PATH_TO_IMAGES', './images/')
+    timeout = int(os.getenv('TIMEOUT', 86400))
+    
     Path(path_to_images).mkdir(parents=True, exist_ok=True)
 
-    load_dotenv()
-    timeout = int(os.getenv('TIMEOUT', 86400))
-
     while True:
-        fetch_spacex_last_launch()
+        fetch_spacex_last_launch(path_to_images)
 
         time.sleep(timeout)

@@ -6,18 +6,18 @@ import random
 import time
 
 if __name__ == '__main__':
-    path_to_images = './images/'
-    Path(path_to_images).mkdir(parents=True, exist_ok=True)
-
     load_dotenv()
+    path_to_images = os.getenv('PATH_TO_IMAGES', './images/')
     telegram_token = os.getenv('TELEGRAM_TOKEN', '')
     id_telegram_channel = os.getenv('ID_TELEGRAM_CHANNEL')
     timeout = int(os.getenv('TIMEOUT', 86400))
 
+    Path(path_to_images).mkdir(parents=True, exist_ok=True)
+
     while True:
         bot = telegram.Bot(token=telegram_token)
 
-        files = os.listdir('./images/')
+        files = os.listdir(path_to_images)
 
         if files:
             with open(f'{path_to_images}{files[random.randint(0, len(files))]}', 'rb') as photo:
