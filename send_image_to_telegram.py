@@ -14,9 +14,9 @@ if __name__ == '__main__':
 
     Path(path_to_images).mkdir(parents=True, exist_ok=True)
 
-    while True:
-        bot = telegram.Bot(token=telegram_token)
+    bot = telegram.Bot(token=telegram_token)
 
+    while True:
         files = os.listdir(path_to_images)
 
         if files:
