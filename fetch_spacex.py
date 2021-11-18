@@ -10,7 +10,7 @@ def fetch_spacex_last_launch(path_to_images):
     """Загружает картинки через API SpaceX."""
     response = requests.get('https://api.spacexdata.com/v4/launches')
 
-    for i in response.json():
+    for i in response.json()[::-1]:
         if i['links']['flickr']['original']:
             for index, url in enumerate(i['links']['flickr']['original'], 1):
                 response = requests.get(url)
@@ -26,7 +26,7 @@ if __name__ == '__main__':
     load_dotenv()
     path_to_images = os.getenv('PATH_TO_IMAGES', './images/')
     timeout = int(os.getenv('TIMEOUT', 86400))
-    
+
     Path(path_to_images).mkdir(parents=True, exist_ok=True)
 
     while True:
