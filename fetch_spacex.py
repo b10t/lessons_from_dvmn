@@ -18,9 +18,9 @@ def fetch_spacex_last_launch(path_to_images):
     if response.status_code != 200:
         raise requests.exceptions.HTTPError(response.status_code)
 
-    for i in response.json()[::-1]:
-        if i['links']['flickr']['original']:
-            for index, url in enumerate(i['links']['flickr']['original'], 1):
+    for image_json in response.json()[::-1]:
+        if image_json['links']['flickr']['original']:
+            for index, url in enumerate(image_json['links']['flickr']['original'], 1):
                 response = requests.get(url)
                 response.raise_for_status()
 
