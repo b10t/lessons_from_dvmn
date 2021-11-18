@@ -1,12 +1,13 @@
 import os
-from pathlib import Path
-from dotenv import load_dotenv
-import telegram
 import random
 import time
-from fetch_spacex import fetch_spacex_last_launch
-from fetch_nasa import fetch_nasa_apod_images, fetch_nasa_epic_images
+from pathlib import Path
 
+import telegram
+from dotenv import load_dotenv
+
+from fetch_nasa import fetch_nasa_apod_images, fetch_nasa_epic_images
+from fetch_spacex import fetch_spacex_last_launch
 
 if __name__ == '__main__':
     load_dotenv()

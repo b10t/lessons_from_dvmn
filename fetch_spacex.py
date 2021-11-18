@@ -1,8 +1,10 @@
 import os
-import requests
-from pathlib import Path
-from dotenv import load_dotenv
 import time
+from pathlib import Path
+
+import requests
+from dotenv import load_dotenv
+
 from download_and_save_images import download_image
 
 

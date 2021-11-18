@@ -1,10 +1,12 @@
 import os
-import requests
-from pathlib import Path
-from dotenv import load_dotenv
-from urllib.parse import urlsplit, unquote, urlencode
-from datetime import datetime
 import time
+from datetime import datetime
+from pathlib import Path
+from urllib.parse import unquote, urlencode, urlsplit
+
+import requests
+from dotenv import load_dotenv
+
 from download_and_save_images import download_image
 
 

@@ -1,9 +1,10 @@
 import os
-from pathlib import Path
-from dotenv import load_dotenv
-import telegram
 import random
 import time
+from pathlib import Path
+
+import telegram
+from dotenv import load_dotenv
 
 if __name__ == '__main__':
     load_dotenv()
