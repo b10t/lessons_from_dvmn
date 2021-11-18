@@ -41,11 +41,11 @@ def fetch_nasa_apod_images(token, path_to_images):
     response.raise_for_status()
 
     for image_json in response.json():
-        url_image = image_json['url']
+        image_url = image_json['url']
 
-        if urlsplit(url_image).netloc == 'apod.nasa.gov':
+        if urlsplit(image_url).netloc == 'apod.nasa.gov':
             download_image(
-                url_image,
+                image_url,
                 os.path.join(
                     path_to_images,
                     f'{get_file_name_from_url(image_json["url"])}'))
@@ -81,11 +81,11 @@ def fetch_nasa_epic_url_image(token, image_json):
         str: Ссылка на изображение
     """
     payload = {'api_key': token}
-    date_image = datetime.fromisoformat(image_json['date'])
+    image_date = datetime.fromisoformat(image_json['date'])
 
     params = '?%s' % urlencode(payload)
 
-    return f'https://api.nasa.gov/EPIC/archive/natural/{date_image.strftime("%Y/%m/%d")}/png/{image_json["image"]}.png{params}'
+    return f'https://api.nasa.gov/EPIC/archive/natural/{image_date.strftime("%Y/%m/%d")}/png/{image_json["image"]}.png{params}'
 
 
 if __name__ == '__main__':

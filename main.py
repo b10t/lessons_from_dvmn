@@ -13,7 +13,7 @@ if __name__ == '__main__':
     path_to_images = os.getenv('PATH_TO_IMAGES', './images/')
     nasa_token = os.getenv('NASA_TOKEN')
     telegram_token = os.getenv('TELEGRAM_TOKEN', '')
-    id_telegram_channel = os.getenv('ID_TELEGRAM_CHANNEL')
+    telegram_channel_id = os.getenv('ID_TELEGRAM_CHANNEL')
     timeout = int(os.getenv('TIMEOUT', 86400))
 
     Path(path_to_images).mkdir(parents=True, exist_ok=True)
@@ -30,7 +30,7 @@ if __name__ == '__main__':
         if files:
             with open(f'{path_to_images}{files[random.randint(0, len(files))]}', 'rb') as photo:
                 bot.send_photo(
-                    chat_id=id_telegram_channel,
+                    chat_id=telegram_channel_id,
                     photo=photo)
 
         time.sleep(timeout)
