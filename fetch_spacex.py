@@ -8,7 +8,15 @@ from download_and_save_images import download_image
 
 def fetch_spacex_last_launch(path_to_images):
     """Загружает картинки через API SpaceX."""
-    response = requests.get('https://api.spacexdata.com/v4/launches')
+    try:
+        response = requests.get('https://api.spacexdata.com/v4/launches')
+    except requests.exceptions.ConnectionError as ex:
+        raise ex
+
+    response.raise_for_status
+
+    if response.status_code != 200:
+        raise requests.exceptions.HTTPError(response.status_code)
 
     for i in response.json()[::-1]:
         if i['links']['flickr']['original']:

@@ -55,9 +55,16 @@ def fetch_nasa_epic_images(token, path_to_images):
     """Загружает картинки через API NASA."""
     payload = {'api_key': token}
 
-    response = requests.get(
-        'https://api.nasa.gov/EPIC/api/natural', params=payload)
-    response.raise_for_status()
+    try:
+        response = requests.get(
+            'https://api.nasa.gov/EPIC/api/natural', params=payload)
+    except requests.exceptions.ConnectionError as ex:
+        raise ex
+
+    response.raise_for_status
+
+    if response.status_code != 200:
+        raise requests.exceptions.HTTPError(response.status_code)
 
     for image_json in response.json():
         url_image = fetch_nasa_epic_url_image(token, image_json)
