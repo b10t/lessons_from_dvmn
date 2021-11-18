@@ -29,7 +29,10 @@ if __name__ == '__main__':
         files = os.listdir(path_to_images)
 
         if files:
-            with open(f'{path_to_images}{files[random.randint(0, len(files))]}', 'rb') as photo:
+            with open(f'{path_to_images}'
+                      f'{files[random.randint(0, len(files))]}',
+                      'rb') as photo:
+
                 bot.send_photo(
                     chat_id=telegram_channel_id,
                     photo=photo)

@@ -2,7 +2,7 @@ import os
 import time
 from datetime import datetime
 from pathlib import Path
-from urllib.parse import unquote, urlencode, urlsplit
+from urllib.parse import unquote, urlsplit
 
 import requests
 from dotenv import load_dotenv
@@ -76,7 +76,9 @@ def fetch_nasa_epic_images(token, path_to_images):
                 url_image,
                 os.path.join(
                     path_to_images,
-                    f'{image_content["image"]}{get_extension_from_url(url_image)}'))
+                    f'{image_content["image"]}'
+                    '{get_extension_from_url(url_image)}',),
+                params={'api_key': token})
 
 
 def fetch_nasa_epic_url_image(token, image_content):
@@ -89,12 +91,11 @@ def fetch_nasa_epic_url_image(token, image_content):
     Returns:
         str: Ссылка на изображение
     """
-    payload = {'api_key': token}
     image_date = datetime.fromisoformat(image_content['date'])
 
-    params = '?%s' % urlencode(payload)
-
-    return f'https://api.nasa.gov/EPIC/archive/natural/{image_date.strftime("%Y/%m/%d")}/png/{image_content["image"]}.png{params}'
+    return f'https://api.nasa.gov/EPIC/archive/natural/'\
+        f'{image_date.strftime("%Y/%m/%d")}/png/'\
+        f'{image_content["image"]}.png'
 
 
 if __name__ == '__main__':

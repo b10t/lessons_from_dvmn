@@ -22,7 +22,9 @@ def fetch_spacex_last_launch(path_to_images):
 
     for image_content in response.json()[::-1]:
         if image_content['links']['flickr']['original']:
-            for index, url in enumerate(image_content['links']['flickr']['original'], 1):
+            for index, url in enumerate(
+                    image_content['links']['flickr']['original'], 1):
+
                 response = requests.get(url)
                 response.raise_for_status()
 
