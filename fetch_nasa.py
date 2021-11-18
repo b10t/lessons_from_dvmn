@@ -68,18 +68,18 @@ def fetch_nasa_epic_images(token, path_to_images):
     if response.status_code != 200:
         raise requests.exceptions.HTTPError(response.status_code)
 
-    for image_json in response.json():
-        url_image = fetch_nasa_epic_url_image(token, image_json)
+    for image_content in response.json():
+        url_image = fetch_nasa_epic_url_image(token, image_content)
 
         if urlsplit(url_image).netloc == 'api.nasa.gov':
             download_image(
                 url_image,
                 os.path.join(
                     path_to_images,
-                    f'{image_json["image"]}{get_extension_from_url(url_image)}'))
+                    f'{image_content["image"]}{get_extension_from_url(url_image)}'))
 
 
-def fetch_nasa_epic_url_image(token, image_json):
+def fetch_nasa_epic_url_image(token, image_content):
     """Получает ссылку на изображение.
 
     Args:
@@ -90,11 +90,11 @@ def fetch_nasa_epic_url_image(token, image_json):
         str: Ссылка на изображение
     """
     payload = {'api_key': token}
-    image_date = datetime.fromisoformat(image_json['date'])
+    image_date = datetime.fromisoformat(image_content['date'])
 
     params = '?%s' % urlencode(payload)
 
-    return f'https://api.nasa.gov/EPIC/archive/natural/{image_date.strftime("%Y/%m/%d")}/png/{image_json["image"]}.png{params}'
+    return f'https://api.nasa.gov/EPIC/archive/natural/{image_date.strftime("%Y/%m/%d")}/png/{image_content["image"]}.png{params}'
 
 
 if __name__ == '__main__':
