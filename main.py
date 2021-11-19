@@ -2,7 +2,6 @@ import os
 import time
 from pathlib import Path
 
-import requests
 from dotenv import load_dotenv
 
 from fetch_nasa import fetch_nasa_apod_images, fetch_nasa_epic_images
@@ -20,12 +19,9 @@ if __name__ == '__main__':
     Path(path_to_images).mkdir(parents=True, exist_ok=True)
 
     while True:
-        try:
-            fetch_spacex_last_launch(path_to_images)
-            fetch_nasa_apod_images(nasa_token, path_to_images)
-            fetch_nasa_epic_images(nasa_token, path_to_images)
-        except requests.exceptions.ConnectionError as ex:
-            raise ex
+        fetch_spacex_last_launch(path_to_images)
+        fetch_nasa_apod_images(nasa_token, path_to_images)
+        fetch_nasa_epic_images(nasa_token, path_to_images)
 
         send_image_to_telegram(path_to_images,
                                telegram_token,
