@@ -1,7 +1,6 @@
 import os
 import time
 from datetime import datetime
-from pathlib import Path
 from urllib.parse import unquote, urlsplit
 
 import requests
@@ -96,8 +95,6 @@ if __name__ == '__main__':
     path_to_images = os.getenv('PATH_TO_IMAGES', './images/')
     nasa_token = os.getenv('NASA_TOKEN')
     timeout = int(os.getenv('TIMEOUT', 86400))
-
-    Path(path_to_images).mkdir(parents=True, exist_ok=True)
 
     while True:
         fetch_nasa_apod_images(nasa_token, path_to_images)

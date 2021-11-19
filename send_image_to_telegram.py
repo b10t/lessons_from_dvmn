@@ -1,7 +1,6 @@
 import os
 import random
 import time
-from pathlib import Path
 
 import telegram
 from dotenv import load_dotenv
@@ -31,8 +30,6 @@ if __name__ == '__main__':
     telegram_token = os.getenv('TELEGRAM_TOKEN', '')
     telegram_channel_id = os.getenv('ID_TELEGRAM_CHANNEL')
     timeout = int(os.getenv('TIMEOUT', 86400))
-
-    Path(path_to_images).mkdir(parents=True, exist_ok=True)
 
     while True:
         send_image_to_telegram(path_to_images,
